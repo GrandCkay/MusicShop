@@ -41,13 +41,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         userNameEditText = findViewById(R.id.editText);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("quantity", quantity);
+        outState.putDouble("price", price);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        quantity = savedInstanceState.getInt("quantity");
+        price = savedInstanceState.getDouble("price");
+    }
+
     void createSpinner() {
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
         spinnerArrayList = new ArrayList();
-        spinnerArrayList.add("Гитара");
-        spinnerArrayList.add("Барабан");
-        spinnerArrayList.add("Саксафон");
+        spinnerArrayList.add("Guitar");
+        spinnerArrayList.add("Drums");
+        spinnerArrayList.add("Saxophone");
 
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerArrayList);
         spinner.setAdapter(spinnerAdapter);
@@ -55,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     void createMap() {
         hashMapMusic = new HashMap();
-        hashMapMusic.put("Гитара", 500.0);
-        hashMapMusic.put("Барабан", 1000.0);
-        hashMapMusic.put("Саксафон", 1500.0);
+        hashMapMusic.put("Guitar", 500.0);
+        hashMapMusic.put("Drums", 1000.0);
+        hashMapMusic.put("Saxophone", 1500.0);
     }
 
     public void plusQuantity(View view) {
@@ -102,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        switch - (переключатель) альтернатива (if (esle if)) для метода с большим количеством вариантов
 
         switch (goodsName) {
-            case "Гитара":
+            case "Guitar":
                 goodsImageView.setImageResource(R.drawable.guitar);
                 break;
-            case "Барабан":
+            case "Drums":
                 goodsImageView.setImageResource(R.drawable.eletronica);
                 break;
-            case "Саксафон":
+            case "Saxophone":
                 goodsImageView.setImageResource(R.drawable.saxophone);
                 break;
             default:
@@ -118,27 +132,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-        @Override
-        public void onNothingSelected (AdapterView < ? > adapterView){
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
-        }
-
-
-        public void addToCart (View view){
-            Order order = new Order();
-            order.userName = userNameEditText.getText().toString();
-            order.goodsName = goodsName;
-            order.quantity = quantity;
-            order.oderPrice = quantity * price;
-
-            //  Проверка в лого
-            //  Log.e("printUserName", "" + order.userName + order.goodsName + order.quantity + order.oderPrice);
-
-            Intent orderIntent = new Intent(MainActivity.this, OrderActivity.class);
-            orderIntent.putExtra("userName", order.userName);
-            orderIntent.putExtra("goodsName", order.goodsName);
-            orderIntent.putExtra("quantity", order.quantity);
-            orderIntent.putExtra("oderPrice", order.oderPrice);
-            startActivity(orderIntent);
-        }
     }
+
+
+    public void addToCart(View view) {
+        Order order = new Order();
+        order.userName = userNameEditText.getText().toString();
+        order.goodsName = goodsName;
+        order.quantity = quantity;
+        order.orderPrice = quantity * price;
+
+        //  Проверка в лого
+        //  Log.e("printUserName", "" + order.userName + order.goodsName + order.quantity + order.oderPrice);
+
+        Intent orderIntent = new Intent(MainActivity.this, OrderActivity.class);
+        orderIntent.putExtra("userName", order.userName);
+        orderIntent.putExtra("goodsName", order.goodsName);
+        orderIntent.putExtra("quantity", order.quantity);
+        orderIntent.putExtra("orderPrice", order.orderPrice);
+        startActivity(orderIntent);
+    }
+}
