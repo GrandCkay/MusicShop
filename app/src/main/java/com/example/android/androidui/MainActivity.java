@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        } else if (goodsName.equals("Саксафон")) {
 //            goodsImageView.setImageResource(R.drawable.saxophone);
 //        }
-
 //        switch - (переключатель) альтернатива (if (esle if)) для метода с большим количеством вариантов
 
         switch (goodsName) {
